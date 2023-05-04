@@ -1,5 +1,7 @@
 global using Library.Shared;
+global using Library.Server.Repositories;
 using Library.Server.Data;
+using Library.Server.Repositories.Interfaces;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
