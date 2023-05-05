@@ -43,10 +43,8 @@ namespace Library.Server.Data
             modelBuilder.Entity<Book>().HasData(
                 new Book { Id = 1, Title = "1984", Author = "George Orwell", Year = 1949, Prize = 7.95M, CategoryId = 2 },
                 new Book { Id = 2, Title = "Un mundo feliz", Author = "Aldous Huxley", Year = 1932, Prize = 7.95M, CategoryId = 2 },
-                new Book { Id = 3, Title = "Rebelión en la granja", Author = "George Orwell", Year = 1945, Prize = 8.50M, CategoryId = 2 },
+                new Book { Id = 3, Title = "Rebelión en la granja", Author = "George Orwell", Year = 1945, Prize = 8.50M, CategoryId = 2 }
                 );
-
-
         }
     }
 }

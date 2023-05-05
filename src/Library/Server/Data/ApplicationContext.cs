@@ -17,6 +17,8 @@ namespace Library.Server.Data
 
             modelBuilder.Entity<Book>().Property(prop => prop.Prize)
                 .HasPrecision(precision: 9, scale: 2);
+
+            ApplicationSeed.Seed(modelBuilder);
         }
 
     }

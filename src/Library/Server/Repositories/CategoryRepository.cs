@@ -25,7 +25,7 @@ namespace Library.Server.Repositories
 
         public async Task<Category> GetAsync(int id)
         {
-            return _context.Categories.FindAsync(id);
+            return await _context.Categories.FindAsync(id);
         }
 
         public async Task UpdateAsync(Category entity)
