@@ -21,12 +21,12 @@ namespace Library.Server.Repositories
 
         public async Task<List<Book>> GetAllAsync()
         {
-            return await _context.Books.ToListAsync();
+            return await _context.Books.Include(x => x.Category).ToListAsync();
         }
 
         public async Task<Book> GetAsync(int id)
         {
-            return await _context.Books.FindAsync(id);
+            return await _context.Books.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task UpdateAsync(Book entity)
