@@ -1,9 +1,9 @@
 global using Library.Shared;
 global using Library.Server.Repositories;
+global using Microsoft.EntityFrameworkCore;
 using Library.Server.Data;
 using Library.Server.Repositories.Interfaces;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

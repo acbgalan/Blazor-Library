@@ -1,7 +1,6 @@
 ﻿using Library.Server.Data;
 using Library.Server.Repositories.Interfaces;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library.Server.Repositories
 {

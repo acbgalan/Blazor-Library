@@ -1,6 +1,5 @@
 ﻿using Library.Server.Data;
 using Library.Server.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library.Server.Repositories
 {
