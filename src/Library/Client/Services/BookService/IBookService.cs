@@ -1,6 +1,4 @@
-﻿using Library.Client.Pages;
-
-namespace Library.Client.Services.BookService
+﻿namespace Library.Client.Services.BookService
 {
     public interface IBookService
     {

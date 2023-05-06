@@ -1,14 +1,21 @@
-﻿using Library.Client.Pages;
-
+﻿
 namespace Library.Client.Services.BookService
 {
     public class BookService : IBookService
     {
+        private readonly HttpClient _http;
+
+        public BookService(HttpClient http)
+        {
+            _http = http;
+        }
+
         public List<Book> Books { get; set; }
 
-        public Task GetBooks()
+        public async Task GetBooks()
         {
-            throw new NotImplementedException();
+            HttpResponseMessage response = await _http.GetAsync("api/books");
+            
         }
     }
 }
