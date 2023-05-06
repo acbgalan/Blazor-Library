@@ -1,4 +1,6 @@
 ﻿
+using Newtonsoft.Json;
+
 namespace Library.Client.Services.BookService
 {
     public class BookService : IBookService
@@ -10,13 +12,19 @@ namespace Library.Client.Services.BookService
             _http = http;
         }
 
-        public List<Book> Books { get; set; }
+        public List<Book> Books { get; set; } = new List<Book>();
 
         public async Task GetBooks()
         {
             HttpResponseMessage response = await _http.GetAsync("api/books");
 
-            
+            if (response.IsSuccessStatusCode)
+            {
+                string stringContent = await response.Content.ReadAsStringAsync();
+                Books = JsonConvert.DeserializeObject<List<Book>>(stringContent);
+            }
         }
+
+
     }
 }
