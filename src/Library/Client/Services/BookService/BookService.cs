@@ -25,6 +25,20 @@ namespace Library.Client.Services.BookService
             }
         }
 
+        public async Task<Book> GetBookById(int id)
+        {
+            HttpResponseMessage response = await _http.GetAsync($"api/books/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string stringContent = await response.Content.ReadAsStringAsync();
+                Book book = JsonConvert.DeserializeObject<Book>(stringContent);
+                return book;                
+            }
+
+            throw new Exception("Libro no encontrado");
+        }
+
 
     }
 }
