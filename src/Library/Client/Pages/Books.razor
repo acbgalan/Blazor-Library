@@ -1,13 +1,13 @@
-﻿@page "/book"
+﻿@page "/books"
 @inject IBookService BookService
 @inject NavigationManager NavigationManager
 <PageTitle>Listado de libros</PageTitle>
 
 <h3>Listado de libros</h3>
 
-<table class="table">
+<table class="table table-hover">
     <thead>
-        <tr>
+        <tr class="table-dark">
             <th>#</th>
             <th>Titulo</th>
             <th>Autor</th>
@@ -27,7 +27,7 @@
                 <td>@book.Year</td>
                 <td>@book.Prize</td>
                 <td>@book.Category.Name</td>
-                <td></td>
+                <td><button class="btn btn-primary" @onclick="(() => ShowBook(book.Id))"><i class="oi oi-magnifying-glass" aria-hidden="true"></i></button></td>
             </tr>
         }
     </tbody>
@@ -37,7 +37,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await BookSerive.GetBooks();
+        await BookService.GetBooks();
+    }
+
+    void ShowBook(int id)
+    {
+        NavigationManager.NavigateTo($"book/{id}");
     }
 
 }
