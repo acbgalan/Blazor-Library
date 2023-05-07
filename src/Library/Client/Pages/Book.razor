@@ -1,22 +1,24 @@
 ﻿@page "/book"
-@inject IBookService BookSerive
-<PageTitle></PageTitle>
+@inject IBookService BookService
+@inject NavigationManager NavigationManager
+<PageTitle>Listado de libros</PageTitle>
 
-<h3>List of books</h3>
+<h3>Listado de libros</h3>
 
 <table class="table">
     <thead>
         <tr>
             <th>#</th>
-            <th>Title</th>
+            <th>Titulo</th>
             <th>Autor</th>
             <th>Año publicación</th>
             <th>Precio</th>
             <th>Categoria</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var book in BookSerive.Books)
+        @foreach (var book in BookService.Books)
         {
             <tr>
                 <td>@book.Id</td>
@@ -24,7 +26,8 @@
                 <td>@book.Author</td>
                 <td>@book.Year</td>
                 <td>@book.Prize</td>
-                <td>@book.Category.Name</td>s
+                <td>@book.Category.Name</td>
+                <td></td>
             </tr>
         }
     </tbody>
