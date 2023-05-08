@@ -1,12 +1,27 @@
-﻿namespace Library.Client.Services.CategoryService
+﻿using Newtonsoft.Json;
+
+namespace Library.Client.Services.CategoryService
 {
     public class CategoryService : ICategoryService
     {
-        public List<Category> Categories { get; set; }
+        private readonly HttpClient _http;
 
-        public Task<List<Category>> GetCategories()
+        public CategoryService(HttpClient http)
         {
-            throw new NotImplementedException();
+            _http = http;
+        }
+
+        public List<Category> Categories { get; set; } = new List<Category>();
+
+        public async Task GetCategories()
+        {
+            HttpResponseMessage response = await _http.GetAsync("api/categories");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string stringContent = await response.Content.ReadAsStringAsync();
+                Categories = JsonConvert.DeserializeObject<List<Category>>(stringContent);
+            }
         }
     }
 }
