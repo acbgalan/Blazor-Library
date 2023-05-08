@@ -6,5 +6,8 @@
 
         Task GetBooks();
         Task<Book> GetBookById(int id);
+        Task CreateBook(Book book);
+        Task UpdateBook(Book book);
+        Task DeleteBook(int book);
     }
 }

@@ -25,7 +25,7 @@ namespace Library.Server.Controllers
             return Ok(books);
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "GetBook")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Book>> GetBook(int id)
@@ -38,6 +38,83 @@ namespace Library.Server.Controllers
             }
 
             return Ok(book);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> CreateBook([FromBody] Book book)
+        {
+            if (book == null)
+            {
+                return BadRequest();
+            }
+
+            if (await _bookRepository.ExitsAsync(book.Title))
+            {
+                return BadRequest("Ya existe un libro con ese título");
+            }
+
+            book.Category = null;
+            await _bookRepository.AddAsync(book);
+            int saveResult = await _bookRepository.SaveAsync();
+
+            return CreatedAtRoute("GetBook", new { id = book.Id }, book);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateBook(Book book)
+        {
+            if (book == null)
+            {
+                return BadRequest();
+            }
+
+            bool exits = await _bookRepository.ExitsAsync(book.Id);
+
+            if (!exits)
+            {
+                return NotFound("Libro no encontrado");
+            }
+
+            await _bookRepository.UpdateAsync(book);
+            int saveResult = await _bookRepository.SaveAsync();
+
+            if (!(saveResult > 0))
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Valor no esperado al actualizar libro");
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> DeleteBook(int id)
+        {
+            bool exits = await _bookRepository.ExitsAsync(id);
+
+            if (!exits)
+            {
+                return NotFound("Libro no encontrado");
+            }
+
+            await _bookRepository.DeleteAsync(id);
+            int saveResult = await _bookRepository.SaveAsync();
+
+            if (!(saveResult > 0))
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Valor no esperado al borrar libro");
+            }
+
+            return NoContent(); 
         }
 
 

@@ -4,6 +4,6 @@
     {
         List<Category> Categories { get; set; }
 
-        Task<List<Category>> GetCategories();
+        Task GetCategories();
     }
 }

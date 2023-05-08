@@ -1,9 +1,20 @@
-﻿@page "/book/{id:int}"
+﻿@page "/book"
+@page "/book/{id:int}"
 @inject IBookService BookService
+@inject ICategoryService CategoryService
 
-<h3>Editar libro</h3>
 
-<PageTitle>Editar libro</PageTitle>
+@if (Id != null)
+{
+    <PageTitle>Editar libro</PageTitle>
+    <h3>Editar libro @book.Title</h3>
+}
+else
+{
+    <PageTitle>Crear nuevo libro</PageTitle>
+    <h3>Crear nuevo libro</h3>
+}
+
 <div class="row">
     <EditForm Model="book" OnSubmit="HandleSubmit">
         <div class="my-3">
@@ -25,30 +36,54 @@
         <div class="my-3">
             <label for="category" class="form-label">Categoría</label>
             <InputSelect id="category" @bind-Value="book.CategoryId" class="form-select">
+                @foreach (var item in CategoryService.Categories)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
 
             </InputSelect>
         </div>
-    </EditForm>    
+        <button type="submit" class="btn btn-primary">@btnText</button>
+    </EditForm>
 </div>
 
 @code {
     [Parameter]
-    public int Id { get; set; }
-    private Library.Shared.Book book = new Library.Shared.Book();
+    public int? Id { get; set; }
 
-    protected override async Task OnParametersSetAsync()
-    {
-        book = await BookService.GetBookById(Id);
-    }
+    Library.Shared.Book book = new Library.Shared.Book();
+    string btnText = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        return base.OnInitializedAsync();
+        btnText = Id == null ? "Guardar nuevo libro" : "Actualizar libro";
+        await CategoryService.GetCategories();
     }
 
-    void HandleSubmit()
+    protected override async Task OnParametersSetAsync()
     {
-        string todo = "TODO!";
+        if (Id == null)
+        {
+            book.Category = CategoryService.Categories[0];
+            book.CategoryId = book.Category.Id;
+        }
+        else
+        {
+            book = await BookService.GetBookById((int)Id);
+        }
+    }
+
+
+    async Task HandleSubmit()
+    {
+        if (Id == null)
+        {
+            await BookService.CreateBook(book);
+        }
+        else
+        {
+            await BookService.UpdateBook(book);
+        }
     }
 
 }

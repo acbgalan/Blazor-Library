@@ -33,6 +33,8 @@
     </tbody>
 </table>
 
+<button class="btn btn-primary" @onclick="CreateNewBook">Crear nuevo libro</button>
+
 @code {
 
     protected override async Task OnInitializedAsync()
@@ -43,6 +45,11 @@
     void ShowBook(int id)
     {
         NavigationManager.NavigateTo($"book/{id}");
+    }
+
+    void CreateNewBook()
+    {
+        NavigationManager.NavigateTo("book");
     }
 
 }

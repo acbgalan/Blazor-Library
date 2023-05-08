@@ -24,8 +24,10 @@ namespace Library.Server.Controllers
 
             if (categories == null)
             {
-
+                return NotFound("No se encontraron categorias");
             }
+
+            return Ok(categories);
         }
     }
 }

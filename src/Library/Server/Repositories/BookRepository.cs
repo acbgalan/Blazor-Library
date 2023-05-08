@@ -60,6 +60,11 @@ namespace Library.Server.Repositories
             return await _context.Books.AnyAsync(x => x.Id == id);
         }
 
+        public async Task<bool> ExitsAsync(string title)
+        {
+            return await _context.Books.AnyAsync(x => x.Title.Trim() == title.Trim());
+        }
+
         public async Task<int> SaveAsync()
         {
             return await _context.SaveChangesAsync();
