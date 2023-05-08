@@ -25,7 +25,7 @@ namespace Library.Server.Controllers
             return Ok(books);
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "GetBook")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Book>> GetBook(int id)
@@ -38,6 +38,33 @@ namespace Library.Server.Controllers
             }
 
             return Ok(book);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> CreateBook([FromBody] Book book)
+        {
+            if (book == null)
+            {
+                return BadRequest();
+            }
+
+            if (await _bookRepository.ExitsAsync(book.Title))
+            {
+                return BadRequest("Ya existe un libro con ese título");
+            }
+
+            await _bookRepository.AddAsync(book);
+            int saveResult = await _bookRepository.SaveAsync();
+
+            if (!(saveResult > 0))
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Valor no esperado al guardar nuevo libro");
+            }
+
+            return CreatedAtRoute("GetBook", new { id = book.Id }, book);
         }
 
 
