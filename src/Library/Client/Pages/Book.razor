@@ -1,5 +1,6 @@
 ﻿@page "/book/{id:int}"
 @inject IBookService BookService
+@inject ICategoryService CategoryService
 
 <h3>Editar libro</h3>
 
@@ -25,10 +26,14 @@
         <div class="my-3">
             <label for="category" class="form-label">Categoría</label>
             <InputSelect id="category" @bind-Value="book.CategoryId" class="form-select">
+                @foreach (var item in CategoryService.Categories)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
 
             </InputSelect>
         </div>
-    </EditForm>    
+    </EditForm>
 </div>
 
 @code {
@@ -43,7 +48,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        return base.OnInitializedAsync();
+        await CategoryService.GetCategories();
     }
 
     void HandleSubmit()
