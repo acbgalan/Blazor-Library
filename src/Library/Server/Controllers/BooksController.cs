@@ -18,6 +18,7 @@ namespace Library.Server.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<Book>>> GetBooks()
         {
             var books = await _bookRepository.GetAllAsync();
@@ -36,7 +37,7 @@ namespace Library.Server.Controllers
                 return NotFound("Libro no encontrado");
             }
 
-            return Ok(book);            
+            return Ok(book);
         }
 
 
