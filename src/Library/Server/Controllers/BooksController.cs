@@ -59,12 +59,63 @@ namespace Library.Server.Controllers
             await _bookRepository.AddAsync(book);
             int saveResult = await _bookRepository.SaveAsync();
 
-            if (!(saveResult > 0))
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Valor no esperado al guardar nuevo libro");
-            }
+            c
 
             return CreatedAtRoute("GetBook", new { id = book.Id }, book);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateBook(Book book)
+        {
+            if (book == null)
+            {
+                return BadRequest();
+            }
+
+            bool exits = await _bookRepository.ExitsAsync(book.Id);
+
+            if (!exits)
+            {
+                return NotFound("Libro no encontrado");
+            }
+
+            await _bookRepository.UpdateAsync(book);
+            int saveResult = await _bookRepository.SaveAsync();
+
+            if (!(saveResult > 0))
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Valor no esperado al actualizar libro");
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> DeleteBook(int id)
+        {
+            bool exits = await _bookRepository.ExitsAsync(book.Id);
+
+            if (!exits)
+            {
+                return NotFound("Libro no encontrado");
+            }
+
+            await _bookRepository.DeleteAsync(id);
+            int saveResult = await _bookRepository.SaveAsync();
+
+            if (!(saveResult > 0))
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Valor no esperado al borrar libro");
+            }
+
+            return NoContent();
         }
 
 
