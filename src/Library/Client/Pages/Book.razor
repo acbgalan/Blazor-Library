@@ -1,0 +1,54 @@
+﻿@page "/book/{id:int}"
+@inject IBookService BookService
+
+<h3>Editar libro</h3>
+
+<PageTitle>Editar libro</PageTitle>
+<div class="row">
+    <EditForm Model="book" OnSubmit="HandleSubmit">
+        <div class="my-3">
+            <label for="title" class="form-label">Título</label>
+            <InputText id="title" @bind-Value="book.Title" class="form-control"></InputText>
+        </div>
+        <div class="my-3">
+            <label for="author" class="form-label">Autor</label>
+            <InputText id="author" @bind-Value="book.Author" class="form-control"></InputText>
+        </div>
+        <div class="my-3">
+            <label for="year" class="form-label">Año publicación</label>
+            <InputNumber id="year" @bind-Value="book.Year" class="form-control"></InputNumber>
+        </div>
+        <div class="my-3">
+            <label for="prize" class="form-label">Precio</label>
+            <InputNumber id="prize" @bind-Value="book.Prize" class="form-control"></InputNumber>
+        </div>
+        <div class="my-3">
+            <label for="category" class="form-label">Categoría</label>
+            <InputSelect id="category" @bind-Value="book.CategoryId" class="form-select">
+
+            </InputSelect>
+        </div>
+    </EditForm>    
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Library.Shared.Book book = new Library.Shared.Book();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        book = await BookService.GetBookById(Id);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+
+    void HandleSubmit()
+    {
+        string todo = "TODO!";
+    }
+
+}

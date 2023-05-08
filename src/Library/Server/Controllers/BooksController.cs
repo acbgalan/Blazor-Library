@@ -1,6 +1,7 @@
 ﻿using Library.Server.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 namespace Library.Server.Controllers
 {
@@ -21,6 +22,21 @@ namespace Library.Server.Controllers
         {
             var books = await _bookRepository.GetAllAsync();
             return Ok(books);
+        }
+
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Book>> GetBook(int id)
+        {
+            var book = await _bookRepository.GetAsync(id);
+
+            if (book == null)
+            {
+                return NotFound("Libro no encontrado");
+            }
+
+            return Ok(book);            
         }
 
 
