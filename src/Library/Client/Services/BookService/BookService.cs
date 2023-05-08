@@ -51,10 +51,8 @@ namespace Library.Client.Services.BookService
             {
                 string stringContent = await response.Content.ReadAsStringAsync();
                 Book newBook = JsonConvert.DeserializeObject<Book>(stringContent);
+                _navigationManager.NavigateTo("books");
             }
-
-            _navigationManager.NavigateTo("books");
-
         }
 
         public Task UpdateBook(Book book)

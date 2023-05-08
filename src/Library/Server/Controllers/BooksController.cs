@@ -56,6 +56,7 @@ namespace Library.Server.Controllers
                 return BadRequest("Ya existe un libro con ese título");
             }
 
+            book.Category = null;
             await _bookRepository.AddAsync(book);
             int saveResult = await _bookRepository.SaveAsync();
 
