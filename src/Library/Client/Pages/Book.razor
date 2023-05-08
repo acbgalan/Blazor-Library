@@ -74,9 +74,16 @@ else
     }
 
 
-    void HandleSubmit()
+    async Task HandleSubmit()
     {
-        string todo = "TODO!";
+        if (Id == null)
+        {
+            await BookService.CreateBook(book);
+        }
+        else
+        {
+            await BookService.UpdateBook(book);
+        }
     }
 
 }

@@ -59,8 +59,6 @@ namespace Library.Server.Controllers
             await _bookRepository.AddAsync(book);
             int saveResult = await _bookRepository.SaveAsync();
 
-            c
-
             return CreatedAtRoute("GetBook", new { id = book.Id }, book);
         }
 
@@ -100,7 +98,7 @@ namespace Library.Server.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> DeleteBook(int id)
         {
-            bool exits = await _bookRepository.ExitsAsync(book.Id);
+            bool exits = await _bookRepository.ExitsAsync(id);
 
             if (!exits)
             {
@@ -115,7 +113,7 @@ namespace Library.Server.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Valor no esperado al borrar libro");
             }
 
-            return NoContent();
+            return NoContent(); 
         }
 
 

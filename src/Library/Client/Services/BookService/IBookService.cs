@@ -9,7 +9,5 @@
         Task CreateBook(Book book);
         Task UpdateBook(Book book);
         Task DeleteBook(int book);
-
-
     }
 }
