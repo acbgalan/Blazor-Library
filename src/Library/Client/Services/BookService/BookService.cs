@@ -55,14 +55,28 @@ namespace Library.Client.Services.BookService
             }
         }
 
-        public Task UpdateBook(Book book)
+        public async Task UpdateBook(Book book)
         {
-            throw new NotImplementedException();
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(book), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _http.PutAsync("api/books", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string stringContent = await response.Content.ReadAsStringAsync();
+                _navigationManager.NavigateTo("books");
+            }
         }
 
-        public Task DeleteBook(int book)
+        public async Task DeleteBook(int id)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage response = await _http.DeleteAsync($"api/books/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string stringContent = await response.Content.ReadAsStringAsync();
+                _navigationManager.NavigateTo("books");
+            }
         }
+
     }
 }

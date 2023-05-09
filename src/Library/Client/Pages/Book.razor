@@ -44,6 +44,10 @@ else
             </InputSelect>
         </div>
         <button type="submit" class="btn btn-primary">@btnText</button>
+        @if (Id != null)
+        {
+            <button type="button" class="btn btn-danger mx-2" @onclick="DeleteBook">Borrar libro</button>
+        }
     </EditForm>
 </div>
 
@@ -84,6 +88,11 @@ else
         {
             await BookService.UpdateBook(book);
         }
+    }
+
+    async Task DeleteBook()
+    {
+        await BookService.DeleteBook((int)Id);
     }
 
 }

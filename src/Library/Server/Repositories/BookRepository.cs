@@ -30,11 +30,21 @@ namespace Library.Server.Repositories
 
         public async Task UpdateAsync(Book entity)
         {
-            await Task.Run(() =>
-            {
-                _context.Books.Update(entity);
-            });
+            var book = await this.GetAsync(entity.Id);
 
+            if(book != null)
+            {
+                book.Title = entity.Title;
+                book.Author = entity.Author;
+                book.Year = entity.Year;
+                book.Prize = entity.Prize;
+                book.CategoryId = entity.CategoryId;
+            }
+
+            //await Task.Run(() =>
+            //{
+            //    _context.Books.Update(entity);
+            //});
         }
 
         public async Task DeleteAsync(int id)
