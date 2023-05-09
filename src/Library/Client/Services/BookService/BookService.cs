@@ -60,9 +60,16 @@ namespace Library.Client.Services.BookService
             throw new NotImplementedException();
         }
 
-        public Task DeleteBook(int book)
+        public async Task DeleteBook(int id)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage response = await _http.DeleteAsync($"api/books/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string stringContent = await response.Content.ReadAsStringAsync();
+                _navigationManager.NavigateTo("books");
+            }            
         }
+
     }
 }
